@@ -44,4 +44,22 @@ main #pokemon-list ul {
   list-style-type: none;
   padding: 0;
 }
+
+main #pokemon-list li {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-bottom: 1px solid #ddd;
+}
+
+main #pokemon-list li img {
+  width: 50px;
+  height: 50px;
+}
 /*# sourceMappingURL=style.css.map */
