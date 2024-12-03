@@ -10,21 +10,9 @@ async function loadPokemons() {
 			const pokemonResponse = await fetch(pokemon.url);
 			const pokemonData = await pokemonResponse.json();
 			pokemonList.push(pokemonData);
-			// List first 20 pokemons
-			if (pokemonHTMLList.children.length < 20) {
-				const listItem = document.createElement('li');
-				const img = document.createElement('img');
-				img.src = pokemonData.sprites.front_default;
-				img.alt = pokemon.name;
-				img.style.width = '60px';
-				img.style.height = '60px';
-				listItem.appendChild(img);
-				listItem.appendChild(document.createTextNode(pokemon.name));
-				listItem.onclick = () => displayPokemonDetails(pokemonData);
-				pokemonHTMLList.appendChild(listItem);
-			}
 		}
-	} catch (error) {console.error('Error fetching Pokemon data:', error); }
+		listPokemons(pokemonList)
+	} catch (error) { console.error('Error fetching Pokemon data:', error); }
 }
 
 function displayPokemonDetails(pokemon) {
@@ -38,23 +26,24 @@ function displayPokemonDetails(pokemon) {
     `;
 }
 
-searchInput.addEventListener('input', () => {
-	const searchTerm = searchInput.value.toLowerCase();
-	const filteredPokemons = pokemonList.filter(pokemon => pokemon.name.toLowerCase().includes(searchTerm));
-	// List searched pokemons
+function listPokemons(pokemons) {
 	pokemonHTMLList.innerHTML = '';
-	filteredPokemons.slice(0, 20).forEach(pokemon => {
+	pokemons.slice(0, 20).forEach(pokemon => {
 		const listItem = document.createElement('li');
 		const img = document.createElement('img');
 		img.src = pokemon.sprites.front_default;
 		img.alt = pokemon.name;
-		img.style.width = '60px';
-		img.style.height = '60px';
 		listItem.appendChild(img);
 		listItem.appendChild(document.createTextNode(pokemon.name));
-		listItem.onclick = () => displayPokemonDetails(pokemonData);
+		listItem.onclick = () => displayPokemonDetails(pokemon);
 		pokemonHTMLList.appendChild(listItem);
 	});
+}
+
+searchInput.addEventListener('input', () => {
+	const searchTerm = searchInput.value.toLowerCase();
+	const filteredPokemons = pokemonList.filter(pokemon => pokemon.name.toLowerCase().includes(searchTerm));
+	listPokemons(filteredPokemons);
 });
 
 loadPokemons();
