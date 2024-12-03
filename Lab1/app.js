@@ -20,7 +20,7 @@ async function loadPokemons() {
 				img.style.height = '60px';
 				listItem.appendChild(img);
 				listItem.appendChild(document.createTextNode(pokemon.name));
-				listItem.addEventListener('click', () => displayPokemonDetails(pokemonData));
+				listItem.onclick = () => displayPokemonDetails(pokemonData);
 				pokemonHTMLList.appendChild(listItem);
 			}
 		}
@@ -48,11 +48,11 @@ searchInput.addEventListener('input', () => {
 		const img = document.createElement('img');
 		img.src = pokemon.sprites.front_default;
 		img.alt = pokemon.name;
-		img.style.width = '50px';
-		img.style.height = '50px';
+		img.style.width = '60px';
+		img.style.height = '60px';
 		listItem.appendChild(img);
 		listItem.appendChild(document.createTextNode(pokemon.name));
-		listItem.addEventListener('click', () => displayPokemonDetails(pokemon));
+		listItem.onclick = () => displayPokemonDetails(pokemonData);
 		pokemonHTMLList.appendChild(listItem);
 	});
 });
