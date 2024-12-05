@@ -52,11 +52,19 @@ function displayPokemonDetails(pokemon) {
 	detailsDiv.innerHTML = `
 		<h2>${pokemon.name}</h2>
 		<img src="${pokemon.sprites.other.showdown.front_default}" alt="${pokemon.name}" style="width:100px;height:100px;">
-		<p>Height: ${pokemon.height}</p>
-		<p>Weight: ${pokemon.weight}</p>
-		<p>Type: ${pokemon.types.map(typeInfo => typeInfo.type.name).join(', ')}</p>
+		<p><strong>Height:</strong> ${pokemon.height * 10} centimeters</p>
+		<p><strong>Weight:</strong> ${pokemon.weight / 10} kilogrammes</p>
+		<p><strong>Type:</strong> ${pokemon.types.map(typeInfo => typeInfo.type.name).join(', ')}</p>
+		<p><strong>Abilities:</strong> ${pokemon.abilities.map(abilityInfo => abilityInfo.ability.name).join(', ')}</p>
+		<p><strong>Stats:</strong></p>
+		<ul>
+			${pokemon.stats.map(statInfo => `
+				<li><strong>${statInfo.stat.name}:</strong> ${statInfo.base_stat}</li>
+			`).join('')}
+		</ul>
 	`;
 }
+
 
 // Listing pokemons from given list, all or filtered Pokémons
 function listPokemons(pokemons) {

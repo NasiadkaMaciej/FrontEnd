@@ -1,3 +1,8 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -40,6 +45,10 @@ main section {
   text-align: center;
 }
 
+main #details ul {
+  list-style-type: none;
+}
+
 main #pokemon-list ul {
   list-style-type: none;
   padding: 0;
@@ -59,7 +68,7 @@ main #pokemon-list li {
 }
 
 main #pokemon-list li img {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
 }
 /*# sourceMappingURL=style.css.map */
