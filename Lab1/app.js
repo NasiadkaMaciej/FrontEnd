@@ -1,19 +1,24 @@
-const pokemonHTMLList = document.getElementById('list');
-const pokemonList = [];
-const searchInput = document.getElementById('search');
-
 const API_BASE_URL = 'https://pokeapi.co/api/v2/pokemon';
 const NUMBER_OF_POKEMONS = 1302;
+const ITEMS_ON_LIST = 20
+
+const pokemonList = [];
 let isFetching = false;
 let isSearching = false;
 
-async function loadPokemons(offset = 0, limit = 20) {
+const pokemonHTMLList = document.getElementById('list');
+const searchInput = document.getElementById('search');
+const detailsDiv = document.getElementById('details');
+const progress = document.getElementById('progress')
+
+async function loadPokemons(offset = 0, limit = ITEMS_ON_LIST) {
 	if (isFetching || offset >= NUMBER_OF_POKEMONS) return
 	isFetching = true;
 
-	// Fetching pokemons part by part to make website usable as soon as posible
+	// Fetching Pokémons part by part to make website usable as soon as posible
 	try {
 		const response = await fetch(`${API_BASE_URL}?offset=${offset}&limit=${limit}`);
+        if (!response.ok) throw new Error('Failed to fetch Pokémon list');
 		const data = await response.json();
 
 		const batchDetails = await Promise.all(
@@ -21,28 +26,29 @@ async function loadPokemons(offset = 0, limit = 20) {
 		);
 
 		pokemonList.push(...batchDetails);
-		if (!isSearching)
-			listPokemons(batchDetails);
+		// Display 20 Pokémons
+		if (!isSearching) listPokemons(pokemonList.slice(0, 20));
+		// Update search result as new Pokémon are being loaded
+		else searchInput.dispatchEvent(new Event('input'))
+
 	} catch (error) {
-		console.error('Error fetching Pokémon data:', error);
+		console.error('Error fetching Pokémons data:', error);
 	} finally {
 		isFetching = false;
 		updateProgress(Math.min(offset + limit, NUMBER_OF_POKEMONS));
-		// Continue fetching the rest of the pokemons in the background
+		// Continue fetching the rest of the Pokémon in the background
 		if (offset + limit < NUMBER_OF_POKEMONS)
 	   		loadPokemons(offset + limit, limit);
 	}
 }
 
-function updateProgress(number) {
-	const progress = document.getElementById('progress')
-	const percentage = (number / NUMBER_OF_POKEMONS*100).toFixed(2);
-	progress.innerHTML = `${number} out of ${NUMBER_OF_POKEMONS} (${percentage}%)`
+function updateProgress(currentCount) {
+	const percentage = (currentCount / NUMBER_OF_POKEMONS*100).toFixed(2);
+	progress.innerHTML = `${currentCount} out of ${NUMBER_OF_POKEMONS} (${percentage}%)`
 }
 
-// Displaying the details of the selected pokemon
+// Displaying the details of the selected Pokémon
 function displayPokemonDetails(pokemon) {
-	const detailsDiv = document.getElementById('details');
 	detailsDiv.innerHTML = `
 		<h2>${pokemon.name}</h2>
 		<img src="${pokemon.sprites.other.showdown.front_default}" alt="${pokemon.name}" style="width:100px;height:100px;">
@@ -52,7 +58,7 @@ function displayPokemonDetails(pokemon) {
 	`;
 }
 
-// Listing pokemons from given list, all pokemons or filtered pokemons
+// Listing pokemons from given list, all or filtered Pokémons
 function listPokemons(pokemons) {
 	pokemonHTMLList.innerHTML = ''; // Clear the existing list before populating
 	pokemons.forEach(pokemon => {
