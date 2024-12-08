@@ -9,22 +9,16 @@
 </head>
 
 <body>
-	<header>
-		<h1>Pokédex</h1>
-		<p>Pokémons loaded: <span id="progress"> </span> </p>
-		<input type="text" id="search" placeholder="Search Pokemon..." />
-	</header>
-	<main>
-		<section id="pokemon-list">
-			<h2>Pokémon List</h2>
-			<ul id="list"></ul>
-		</section>
-		<section id="pokemon-details">
-			<h2>Pokémon Details</h2>
-			<div id="details"></div>
-		</section>
-	</main>
-	<script src="app.js"></script>
+	<div id="root"></div>
+
+	<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+	<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+	<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+	<script type="text/babel" src="app.js"></script>
+	<script type="text/babel" src="components/Header.js"></script>
+	<script type="text/babel" src="components/PokemonDetails.js"></script>
+	<script type="text/babel" src="components/PokemonList.js"></script>
 </body>
 
 </html>

@@ -11,19 +11,23 @@ body {
           box-sizing: border-box;
 }
 
-header {
+body #root {
+  width: 100%;
+}
+
+body #root header {
   text-align: center;
   padding: 1rem;
   background-color: #f8d030;
 }
 
-header input {
+body #root header input {
   padding: 0.5rem;
   width: 400px;
   margin-top: 1rem;
 }
 
-main {
+body #root main {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -31,10 +35,11 @@ main {
       -ms-flex-pack: justify;
           justify-content: space-between;
   padding: 1rem;
-  gap: 2rem;
+  gap: 1rem;
 }
 
-main section {
+body #root main section {
+  text-align: center;
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
@@ -45,30 +50,28 @@ main section {
   text-align: center;
 }
 
-main #details ul {
-  list-style-type: none;
-}
-
-main #pokemon-list ul {
+body #root main ul {
   list-style-type: none;
   padding: 0;
 }
 
-main #pokemon-list li {
+body #root main ul li {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   gap: 1rem;
   cursor: pointer;
   padding: 0.5rem;
   border-bottom: 1px solid #ddd;
 }
 
-main #pokemon-list li img {
+body #root main ul li img {
   width: 60px;
-  height: 60px;
 }
 /*# sourceMappingURL=style.css.map */
