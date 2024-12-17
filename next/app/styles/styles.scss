@@ -60,3 +60,16 @@ body {
 		}
 	}
 }
+.favoriteBtn {
+    cursor: pointer;
+    font-size: 5em;
+	user-select: none;
+	line-height: 0.5;
+	&.favorite {
+		color: gold;
+	}
+	&.not-favorite {
+		color: gray;
+	}
+}
+

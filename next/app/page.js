@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import Header from './components/Header';
+import Navigation from './components/Navigation';
 import PokemonList from './components/PokemonList';
 import PokemonDetails from './components/PokemonDetails';
 import './styles/styles.css';  // Import the CSS file
@@ -48,7 +48,7 @@ const Home = () => {
 
     return (
         <>
-            <Header progress={progress} total={NUMBER_OF_POKEMONS} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+            <Navigation progress={progress} total={NUMBER_OF_POKEMONS} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
             <main>
                 <section>
                     <h2>Pokémon List</h2>
