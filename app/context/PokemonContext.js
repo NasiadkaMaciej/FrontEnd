@@ -5,46 +5,50 @@ import { createContext, useContext, useEffect, useState } from "react";
 const PokemonContext = createContext();
 
 export const PokemonProvider = ({ children }) => {
-    const API_BASE_URL = "https://pokeapi.co/api/v2/pokemon";
-    const NUMBER_OF_POKEMONS = 1302;
-    const ITEMS_ON_LIST = 20;
-	
-    const [pokemonList, setPokemonList] = useState([]);
-    const [progress, setProgress] = useState(0);
+	const API_BASE_URL = "https://pokeapi.co/api/v2/pokemon";
+	const NUMBER_OF_POKEMONS = 1302;
+	const BATCH = 20;
 
-    useEffect(() => {
-        if (pokemonList.length === 0) {
-            loadPokemons();
-        }
-    }, []);
+	const [pokemonList, setPokemonList] = useState([]);
+	const [progress, setProgress] = useState(0);
+	const [isFetching, setIsFetching] = useState(false);
 
-    const loadPokemons = async (offset = 0, limit = ITEMS_ON_LIST) => {
-        if (offset >= NUMBER_OF_POKEMONS) return;
+	useEffect(() => {
+		if (pokemonList.length === 0 && !isFetching) {
+			loadPokemons();
+		}
+	}, [pokemonList, isFetching]);
 
-        try {
-            const response = await fetch(`${API_BASE_URL}?offset=${offset}&limit=${limit}`);
-            const data = await response.json();
+	const loadPokemons = async (offset = 0, limit = BATCH) => {
+		if (offset >= NUMBER_OF_POKEMONS || isFetching) return;
 
-            const batchDetails = await Promise.all(
-                data.results.map((pokemon) => fetch(pokemon.url).then((res) => res.json()))
-            );
+		setIsFetching(true);
+		try {
+			const response = await fetch(`${API_BASE_URL}?offset=${offset}&limit=${limit}`);
+			const data = await response.json();
 
-            setPokemonList((prevList) => [...prevList, ...batchDetails]);
-            setProgress(Math.min(offset + limit, NUMBER_OF_POKEMONS));
+			const batchDetails = await Promise.all(
+				data.results.map((pokemon) => fetch(pokemon.url).then((res) => res.json()))
+			);
 
-            if (offset + limit < NUMBER_OF_POKEMONS) {
-                loadPokemons(offset + limit, limit);
-            }
-        } catch (error) {
-            console.error("Error fetching Pokémon:", error);
-        }
-    };
+			setPokemonList((prevList) => [...prevList, ...batchDetails]);
+			setProgress(Math.min(offset + limit, NUMBER_OF_POKEMONS));
+		} catch (error) {
+			console.error("Error fetching Pokémon:", error);
+		} finally {
+			setIsFetching(false);
+		}
 
-    return (
-        <PokemonContext.Provider value={{ pokemonList, progress }}>
-            {children}
-        </PokemonContext.Provider>
-    );
+		if (offset + limit < NUMBER_OF_POKEMONS) {
+			loadPokemons(offset + limit, limit);
+		}
+	};
+
+	return (
+		<PokemonContext.Provider value={{ pokemonList, progress }}>
+			{children}
+		</PokemonContext.Provider>
+	);
 };
 
 export const usePokemon = () => useContext(PokemonContext);

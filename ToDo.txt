@@ -1,0 +1,2 @@
+Get Pokemon types from fetched Pokemons 
+Show only relevant elements on navigation - not everything is needed on home 

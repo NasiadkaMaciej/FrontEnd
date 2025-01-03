@@ -1,19 +1,8 @@
-// app/layout.js
-import { PokemonProvider } from './context/PokemonContext';
-import { FavoritesProvider } from './context/FavoritesContext';
-
-export default function RootLayout({ children }) {
+export default function HomeLayout({ children }) {
 	return (
 		<html lang="en">
-			<head>
-				<title>Pokédex</title>
-			</head>
 			<body>
-				<PokemonProvider>
-					<FavoritesProvider>
-						{children}
-					</FavoritesProvider>
-				</PokemonProvider>
+				{children}
 			</body>
 		</html>
 	);

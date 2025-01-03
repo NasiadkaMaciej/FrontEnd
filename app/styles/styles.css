@@ -15,12 +15,56 @@ body header {
   text-align: center;
   padding: 1rem;
   background-color: #f8d030;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
-body header input {
+body header nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+body header #search {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 1rem;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+body header #search input,
+body header #search select {
   padding: 0.5rem;
-  width: 400px;
-  margin-top: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  outline: none;
+}
+
+body header #search input[type="number"] {
+  width: 60px;
+}
+
+body header a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+body header a:hover {
+  color: #000;
 }
 
 body main {
@@ -83,13 +127,10 @@ body main ul li img {
       -ms-user-select: none;
           user-select: none;
   line-height: 0.5;
+  color: gray;
 }
 
 .favoriteBtn.favorite {
   color: gold;
-}
-
-.favoriteBtn.not-favorite {
-  color: gray;
 }
 /*# sourceMappingURL=styles.css.map */

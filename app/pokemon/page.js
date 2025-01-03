@@ -2,14 +2,14 @@
 
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { useFavorites } from "../context/FavoritesContext";
 import { usePokemon } from "../context/PokemonContext";
+import { useFavorites } from "../context/FavoritesContext";
 import Navigation from "../components/Navigation";
 import PokemonList from "../components/PokemonList";
 import PokemonDetails from "../components/PokemonDetails";
 import "../styles/styles.css";
 
-const Favorites = () => {
+const Pokedex = () => {
     const { pokemonList, progress } = usePokemon();
     const { favorites } = useFavorites();
     const [selectedPokemon, setSelectedPokemon] = useState(null);
@@ -17,13 +17,12 @@ const Favorites = () => {
 
     const typeFilter = searchParams.get("type");
     const searchFilter = searchParams.get("search") || "";
-    const limit = parseInt(searchParams.get("limit") || "20");
+    const limit = parseInt(searchParams.get("limit") || "20", 10);
 
-    const favoritePokemons = pokemonList.filter((pokemon) => {
-        const isFavorite = favorites.some((fav) => fav.id === pokemon.id);
-        const matchesType = !typeFilter || pokemon.types.some(({ type }) => type.name === typeFilter);
-        const matchesSearch = pokemon.name.toLowerCase().includes(searchFilter.toLowerCase());
-        return isFavorite && matchesType && matchesSearch;
+    const filteredPokemons = pokemonList.filter(({ name, types }) => {
+        const matchesType = !typeFilter || types.some(({ type }) => type.name === typeFilter);
+        const matchesSearch = name.toLowerCase().includes(searchFilter.toLowerCase());
+        return matchesType && matchesSearch;
     });
 
     return (
@@ -31,16 +30,12 @@ const Favorites = () => {
             <Navigation progress={progress} />
             <main>
                 <section>
-                    <h2>Favorite Pokémon</h2>
-                    {favorites.length > 0 ? (
-                        <PokemonList
-                            pokemons={favoritePokemons.slice(0, limit)}
-                            onSelectPokemon={setSelectedPokemon}
-                            favorites={favorites}
-                        />
-                    ) : (
-                        <p>No favorite Pokémon found!</p>
-                    )}
+                    <h2>Pokémon List</h2>
+                    <PokemonList
+                        pokemons={filteredPokemons.slice(0, limit)}
+                        onSelectPokemon={setSelectedPokemon}
+                        favorites={favorites}
+                    />
                 </section>
                 <section>
                     <h2>Pokémon Details</h2>
@@ -51,4 +46,4 @@ const Favorites = () => {
     );
 };
 
-export default Favorites;
+export default Pokedex;

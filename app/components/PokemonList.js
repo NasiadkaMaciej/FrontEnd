@@ -1,4 +1,5 @@
 const PokemonList = ({ pokemons, onSelectPokemon, favorites }) => {
+	//If no pokemons on list (for example no favorites)
 	if (!pokemons || pokemons.length === 0) {
 		return <p>No Pokémon to display.</p>;
 	}
