@@ -121,12 +121,11 @@ body main ul li img {
 
 .favoriteBtn {
   cursor: pointer;
-  font-size: 5em;
+  font-size: 4em;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  line-height: 0.5;
   color: gray;
 }
 
