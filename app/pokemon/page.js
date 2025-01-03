@@ -12,7 +12,7 @@ import "../styles/styles.css";
 
 const Pokedex = () => {
 	const { pokemonList, progress } = usePokemon();
-	const { favorites } = useFavorites();
+	const { favorites, toggleFavorite } = useFavorites();
 	const [selectedPokemon, setSelectedPokemon] = useState(null);
 	const searchParams = useSearchParams();
 
@@ -32,6 +32,7 @@ const Pokedex = () => {
 						pokemons={filteredPokemons}
 						onSelectPokemon={setSelectedPokemon}
 						favorites={favorites}
+						toggleFavorite={toggleFavorite}
 					/>
 				</section>
 				<section>

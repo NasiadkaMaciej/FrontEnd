@@ -1,18 +1,12 @@
 import { useFavorites } from "../context/FavoritesContext";
 
 const PokemonDetails = ({ pokemon }) => {
-	const { addFavorite, removeFavorite, isFavorite } = useFavorites();
 	if (!pokemon) return <p>Select a Pokémon to see details.</p>;
-
-	const toggleFavorite = () => {
-		if (isFavorite(pokemon.id)) removeFavorite(pokemon.id);
-		else addFavorite(pokemon);
-	};
 
 	return (
 		<div id="details">
 			<h2>{pokemon.name}</h2>
-			<img src={pokemon.gif} alt={name} />
+			<img src={pokemon.gif} alt={pokemon.name} />
 			<ul>
 				<li><strong>Height:</strong> {pokemon.height * 10} cm</li>
 				<li><strong>Weight:</strong> {pokemon.weight / 10} kg</li>
@@ -27,14 +21,6 @@ const PokemonDetails = ({ pokemon }) => {
 							</li>
 						))}
 					</ul>
-				</li>
-				<li>
-					<span
-						onClick={toggleFavorite}
-						className={`${isFavorite(pokemon.id) ? "favorite" : ""} favoriteBtn`}
-					>
-						{isFavorite(pokemon.id) ? "★" : "☆"}
-					</span>
 				</li>
 			</ul>
 		</div>

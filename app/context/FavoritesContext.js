@@ -12,6 +12,14 @@ export const FavoritesProvider = ({ children }) => {
 		setFavorites(storedFavorites);
 	}, []);
 
+	const toggleFavorite = (pokemon) => {
+		if (favorites.some((fav) => fav.id === pokemon.id)) {
+			removeFavorite(pokemon.id);
+		} else {
+			addFavorite(pokemon);
+		}
+	};
+
 	const addFavorite = useCallback((pokemon) => {
 		const updatedFavorites = [...favorites, pokemon];
 		setFavorites(updatedFavorites);
@@ -27,7 +35,7 @@ export const FavoritesProvider = ({ children }) => {
 	const isFavorite = (id) => favorites.some((fav) => fav.id === id);
 
 	return (
-		<FavoritesContext.Provider value={{ favorites, addFavorite, removeFavorite, isFavorite }}>
+		<FavoritesContext.Provider value={{ favorites, toggleFavorite }}>
 			{children}
 		</FavoritesContext.Provider>
 	);

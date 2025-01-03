@@ -12,7 +12,7 @@ import "../styles/styles.css";
 
 const Favorites = () => {
 	const { pokemonList, progress } = usePokemon();
-	const { favorites } = useFavorites();
+	const { favorites, toggleFavorite } = useFavorites();
 	const [selectedPokemon, setSelectedPokemon] = useState(null);
 	const searchParams = useSearchParams();
 
@@ -27,16 +27,13 @@ const Favorites = () => {
 			<Navigation progress={progress} />
 			<main>
 				<section>
-					<h2>Favorite Pokémon</h2>
-					{favorites.length > 0 ? (
-						<PokemonList
-							pokemons={filteredPokemons}
-							onSelectPokemon={setSelectedPokemon}
-							favorites={favorites}
-						/>
-					) : (
-						<p>No favorite Pokémon found!</p>
-					)}
+					<h2>Favorite Pokémon List</h2>
+					<PokemonList
+						pokemons={filteredPokemons}
+						onSelectPokemon={setSelectedPokemon}
+						favorites={favorites}
+						toggleFavorite={toggleFavorite}
+					/>
 				</section>
 				<section>
 					<h2>Pokémon Details</h2>
