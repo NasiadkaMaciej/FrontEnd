@@ -1,7 +1,7 @@
 "use client";
 
 
-const Navigation = ({ setSearch, setType, setLimit, progress }) => {
+const Navigation = ({ setSearch, setType, setLimit, progress, search, type, limit }) => {
 
 	const handleSearchChange = (e) => setSearch(e.target.value);
 	const handleTypeChange = (e) => setType(e.target.value);
@@ -22,9 +22,10 @@ const Navigation = ({ setSearch, setType, setLimit, progress }) => {
 				<input
 					type="text"
 					placeholder="Search Pokémon..."
+					value={search}
 					onChange={handleSearchChange}
 				/>
-				<select onChange={handleTypeChange}>
+				<select value={type} onChange={handleTypeChange}>
 					<option value="">All Types</option>
 					<option value="bug">Bug</option>
 					<option value="dark">Dark</option>
@@ -51,6 +52,7 @@ const Navigation = ({ setSearch, setType, setLimit, progress }) => {
 					type="number"
 					min="1"
 					max="100"
+					value={limit}
 					onChange={handleLimitChange}
 				/>
 			</div>

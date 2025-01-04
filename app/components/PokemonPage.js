@@ -6,6 +6,8 @@ import PokemonList from "../components/PokemonList";
 import PokemonDetails from "../components/PokemonDetails";
 import ComparisonPopup from "../components/ComparisonPopup";
 import { filterPokemons } from "../utils/filterPokemons";
+import { useRouter, useSearchParams } from "next/navigation";
+
 import "../styles/styles.scss";
 
 const PokemonPage = ({ pageType }) => {
@@ -21,9 +23,14 @@ const PokemonPage = ({ pageType }) => {
 	const [comparisonList, setComparisonList] = useState([]);
 	const [isComparisonOpen, setIsComparisonOpen] = useState(false);
 
-	const [search, setSearch] = useState("");
-	const [type, setType] = useState("");
-	const [limit, setLimit] = useState(20);
+
+	const router = useRouter();
+	const searchParams = useSearchParams();
+
+	const [search, setSearch] = useState(searchParams.get("search") || "");
+	const [type, setType] = useState(searchParams.get("type") || "");
+	const [limit, setLimit] = useState(searchParams.get("limit") || "20");
+
 
 	const loadPokemons = async (offset = 0, limit = BATCH) => {
 		if (offset >= NUMBER_OF_POKEMONS || isFetching) return;
@@ -86,7 +93,13 @@ const PokemonPage = ({ pageType }) => {
 			loadPokemons();
 		setFavorites(storedFavorites);
 
-	}, []);
+		const params = new URLSearchParams();
+		if (search) params.set("search", search);
+		if (type) params.set("type", type);
+		params.set("limit", limit);
+		router.push(`?${params.toString()}`);
+	}, [search, type, limit, router]);
+
 
 	const toggleFavorite = (pokemon) => {
 		if (favorites.some((fav) => fav.id === pokemon.id))
@@ -128,6 +141,9 @@ const PokemonPage = ({ pageType }) => {
 				setType={setType}
 				setLimit={setLimit}
 				progress={progress}
+				search={search}
+				type={type}
+				limit={limit}
 			/>
 			<main>
 				<section>
