@@ -1,6 +1,3 @@
-import { PokemonProvider } from "../context/PokemonContext";
-import { FavoritesProvider } from "../context/FavoritesContext";
-
 export default function PokedexLayout({ children }) {
 	return (
 		<html lang="en">
@@ -8,11 +5,7 @@ export default function PokedexLayout({ children }) {
 				<title>Pokédex</title>
 			</head>
 			<body>
-				<PokemonProvider>
-					<FavoritesProvider>
-						{children}
-					</FavoritesProvider>
-				</PokemonProvider>
+				{children}
 			</body>
 		</html>
 	);

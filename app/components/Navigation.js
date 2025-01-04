@@ -1,24 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
 
-const Navigation = ({ progress }) => {
-	const router = useRouter();
-	const searchParams = useSearchParams();
+const Navigation = ({ setSearch, setType, setLimit, progress }) => {
 
-	const [search, setSearch] = useState(searchParams.get("search") || "");
-	const [type, setType] = useState(searchParams.get("type") || "");
-	const [limit, setLimit] = useState(searchParams.get("limit") || "20");
-
-	useEffect(() => {
-		const params = new URLSearchParams();
-		if (search) params.set("search", search);
-		if (type) params.set("type", type);
-		params.set("limit", limit);
-
-		router.push(`?${params.toString()}`);
-	}, [search, type, limit, router]);
+	const handleSearchChange = (e) => setSearch(e.target.value);
+	const handleTypeChange = (e) => setType(e.target.value);
+	const handleLimitChange = (e) => setLimit(e.target.value);
 
 	return (
 		<header>
@@ -35,10 +22,9 @@ const Navigation = ({ progress }) => {
 				<input
 					type="text"
 					placeholder="Search Pokémon..."
-					value={search}
-					onChange={(e) => setSearch(e.target.value)}
+					onChange={handleSearchChange}
 				/>
-				<select value={type} onChange={(e) => setType(e.target.value)}>
+				<select onChange={handleTypeChange}>
 					<option value="">All Types</option>
 					<option value="bug">Bug</option>
 					<option value="dark">Dark</option>
@@ -65,8 +51,7 @@ const Navigation = ({ progress }) => {
 					type="number"
 					min="1"
 					max="100"
-					value={limit}
-					onChange={(e) => setLimit(e.target.value)}
+					onChange={handleLimitChange}
 				/>
 			</div>
 		</header>
