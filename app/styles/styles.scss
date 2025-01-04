@@ -1,3 +1,13 @@
+:root {
+	--primary-color: #f8d030;
+	--secondary-color: #f9f9f9;
+	--border-color: #ddd --text-color: #333;
+	--text-hover-color: #000;
+	--favorite-color: gold;
+	--popup-bg-color: white;
+	--box-shadow-color: rgba(0, 0, 0, 0.1);
+}
+
 * {
 	margin: 0;
 	padding: 0;
@@ -9,10 +19,14 @@ body {
 	padding: 0;
 	box-sizing: border-box;
 
+	img {
+		height: 80px;
+	}
+
 	header {
 		text-align: center;
 		padding: 1rem;
-		background-color: #f8d030;
+		background-color: var(--primary-color);
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -32,7 +46,7 @@ body {
 		#search input,
 		#search select {
 			padding: 0.5rem;
-			border: 1px solid #ddd;
+			border: 1px solid var(--border-color);
 			border-radius: 4px;
 			font-size: 1rem;
 			outline: none;
@@ -44,15 +58,14 @@ body {
 
 		a {
 			text-decoration: none;
-			color: #333;
+			color: var(--text-color);
 			font-weight: bold;
 		}
 
 		a:hover {
-			color: #000;
+			color: var(--text-hover-color);
 		}
 	}
-
 
 	main {
 		display: flex;
@@ -60,19 +73,15 @@ body {
 		padding: 1rem;
 		gap: 1rem;
 
-
 		section {
 			text-align: center;
 			flex: 1;
-			border: 1px solid #ddd;
+			border: 1px solid var(--border-color);
 			padding: 1rem;
 			border-radius: 8px;
-			background-color: #f9f9f9;
+			background-color: var(--secondary-color);
 			text-align: center;
-
-			div#details img {
-				height: 100pxls;
-			}
+			box-shadow: 0 4px 6px var(--box-shadow-color);
 		}
 
 		ul {
@@ -86,26 +95,66 @@ body {
 				gap: 1rem;
 				cursor: pointer;
 				padding: 0.5rem;
-				border-bottom: 1px solid #ddd;
+				border-bottom: 1px solid var(--border-color);
 
-				img {
-					width: 60px;
+				.compareBtn {
+					padding: 0.5rem;
+					border: 1px solid var(--border-color);
+					border-radius: 4px;
+					font-size: 1rem;
+					outline: none;
+				}
+
+				.favoriteBtn {
+					font-size: 4em;
+					user-select: none;
+					color: gray;
+
+					&.favorite {
+						color: gold;
+					}
 				}
 			}
-
-
 		}
 	}
 }
 
-.favoriteBtn {
-	cursor: pointer;
-	font-size: 4em;
-	user-select: none;
-	color: gray;
+#comparison-popup {
+	position: fixed;
+	border-radius: 8px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: white;
+	border: 1px solid var(--border-color);
+	padding: 20px;
+	box-shadow: 0 4px 6px var(--box-shadow-color);
+	width: 80%;
+	height: auto;
+	z-index: 1000;
+	overflow-y: auto;
 
-	&.favorite {
-		color: gold;
+	.comparison-container {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: row;
+
+		.pokemon-comparison {
+			display: flex;
+			align-items: center;
+			margin-bottom: 10px;
+			flex-direction: column;
+		}
 	}
 
+	#close-popup {
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		background: none;
+		border: none;
+		font-size: 1.5rem;
+		cursor: pointer;
+	}
 }

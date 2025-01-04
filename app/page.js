@@ -1,7 +1,7 @@
 "use client";
 
 import Navigation from "./components/Navigation";
-import "./styles/styles.css";
+import "./styles/styles.scss";
 
 const HomePage = () => {
 	return (

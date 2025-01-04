@@ -1,4 +1,4 @@
-const PokemonList = ({ pokemons, onSelectPokemon, favorites, toggleFavorite }) => {
+const PokemonList = ({ pokemons, onSelectPokemon, onComparePokemon, favorites, toggleFavorite }) => {
 	if (!pokemons || pokemons.length === 0) return <p>No Pokémon to display.</p>;
 
 	return (
@@ -12,6 +12,11 @@ const PokemonList = ({ pokemons, onSelectPokemon, favorites, toggleFavorite }) =
 					>
 						<img src={pokemon.gif} alt={pokemon.name} />
 						<span>{pokemon.name}</span>
+						<button className='compareBtn'
+							onClick={(e) => {
+								e.stopPropagation();
+								onComparePokemon(pokemon)
+							}}>Compare</button>
 						<span
 							onClick={(e) => {
 								e.stopPropagation();

@@ -11,7 +11,7 @@ import { filterPokemons } from "../utils/filterPokemons";
 import ComparisonPopup from "../components/ComparisonPopup";
 import "../styles/styles.scss";
 
-const Pokedex = () => {
+const PokemonPage = ({ pageType }) => {
 	const { pokemonList, progress } = usePokemon();
 	const { favorites, toggleFavorite } = useFavorites();
 	const [selectedPokemon, setSelectedPokemon] = useState(null);
@@ -23,12 +23,13 @@ const Pokedex = () => {
 	const searchFilter = searchParams.get("search") || "";
 	const limit = parseInt(searchParams.get("limit") || "20");
 
-	const filteredPokemons = filterPokemons(favorites, typeFilter, searchFilter, limit);
+	const pokemons = pageType === "favorite" ? favorites : pokemonList;
+	const filteredPokemons = filterPokemons(pokemons, typeFilter, searchFilter, limit);
 
 	const addPokemonToCompare = (pokemon) => {
 		if (comparisonList.some((comp) => comp.id === pokemon.id)) return;
 		setComparisonList([...comparisonList, pokemon]);
-		if(comparisonList.length >= 1) setIsComparisonOpen(true);
+		if (comparisonList.length >= 1) setIsComparisonOpen(true);
 	};
 
 	const clearComparison = () => {
@@ -41,7 +42,7 @@ const Pokedex = () => {
 			<Navigation progress={progress} />
 			<main>
 				<section>
-					<h2>Favorite Pokémon List</h2>
+					<h2>{pageType === "favorite" ? "Favorite Pokémon List" : "Pokémon List"}</h2>
 					<PokemonList
 						pokemons={filteredPokemons}
 						onSelectPokemon={setSelectedPokemon}
@@ -56,12 +57,10 @@ const Pokedex = () => {
 				</section>
 				{isComparisonOpen && (
 					<div id="comparison-popup">
-						{isComparisonOpen && (
-							<ComparisonPopup
-								selectedPokemons={comparisonList}
-								onClose={clearComparison}
-							/>
-						)}
+						<ComparisonPopup
+							selectedPokemons={comparisonList}
+							onClose={clearComparison}
+						/>
 					</div>
 				)}
 			</main>
@@ -69,4 +68,4 @@ const Pokedex = () => {
 	);
 };
 
-export default Pokedex;
+export default PokemonPage;
