@@ -1,1 +1,4 @@
-Może jednak dodaj context? 
+Clean up 
+Move logic 
+Move context to smaller fragments? 
+More utils? 

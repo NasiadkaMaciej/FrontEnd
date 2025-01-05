@@ -1,7 +1,7 @@
-"use client";
+import { usePokemonContext } from "../context/PokemonContext";
 
-
-const Navigation = ({ setSearch, setType, setLimit, progress, search, type, limit }) => {
+const Navigation = () => {
+	const { search, setSearch, type, setType, limit, setLimit, progress } = usePokemonContext();
 
 	const handleSearchChange = (e) => setSearch(e.target.value);
 	const handleTypeChange = (e) => setType(e.target.value);

@@ -1,10 +1,13 @@
-const PokemonList = ({ pokemons, onSelectPokemon, onComparePokemon, favorites, toggleFavorite }) => {
-	if (!pokemons || pokemons.length === 0) return <p>No Pokémon to display.</p>;
+import { usePokemonContext } from "../context/PokemonContext";
 
+const PokemonList = ({ pokemonsToShow, onSelectPokemon, onComparePokemon }) => {
+    const { favorites, toggleFavorite } = usePokemonContext();
+	if (!pokemonsToShow || pokemonsToShow.length === 0) return <p>No Pokémon to display.</p>;
+	// Maybe handle favorites/non-favorites logic here to simplify code below?
 	return (
 		<div id="pokemon-list">
 			<ul>
-				{pokemons.map((pokemon) => (
+				{pokemonsToShow.map((pokemon) => (
 					<li
 						key={pokemon.id}
 						onClick={() => onSelectPokemon(pokemon)}

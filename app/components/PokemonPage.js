@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
+import { usePokemonContext } from "../context/PokemonContext";
 import Navigation from "../components/Navigation";
 import PokemonList from "../components/PokemonList";
 import PokemonDetails from "../components/PokemonDetails";
 import ComparisonPopup from "../components/ComparisonPopup";
 import { filterPokemons } from "../utils/filterPokemons";
-import { useRouter, useSearchParams } from "next/navigation";
 
 import "../styles/styles.scss";
 
@@ -15,22 +15,25 @@ const PokemonPage = ({ pageType }) => {
 	const NUMBER_OF_POKEMONS = 1302;
 	const BATCH = 20;
 
-	const [pokemonList, setPokemonList] = useState([]);
-	const [favorites, setFavorites] = useState([]);
+	const {
+		pokemonList,
+		setPokemonList,
+		favorites,
+		setFavorites,
+		search,
+		setSearch,
+		type,
+		setType,
+		limit,
+		setLimit,
+		progress,
+		setProgress,
+	} = usePokemonContext();
+
 	const [isFetching, setIsFetching] = useState(false);
-	const [progress, setProgress] = useState(0);
 	const [selectedPokemon, setSelectedPokemon] = useState(null);
 	const [comparisonList, setComparisonList] = useState([]);
 	const [isComparisonOpen, setIsComparisonOpen] = useState(false);
-
-
-	const router = useRouter();
-	const searchParams = useSearchParams();
-
-	const [search, setSearch] = useState(searchParams.get("search") || "");
-	const [type, setType] = useState(searchParams.get("type") || "");
-	const [limit, setLimit] = useState(searchParams.get("limit") || "20");
-
 
 	const loadPokemons = async (offset = 0, limit = BATCH) => {
 		if (offset >= NUMBER_OF_POKEMONS || isFetching) return;
@@ -81,7 +84,6 @@ const PokemonPage = ({ pageType }) => {
 		}
 	};
 
-
 	useEffect(() => {
 		const storedPokemons = JSON.parse(localStorage.getItem("pokemonList")) || [];
 		const storedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
@@ -89,36 +91,9 @@ const PokemonPage = ({ pageType }) => {
 		if (storedPokemons.length == NUMBER_OF_POKEMONS) {
 			setPokemonList(storedPokemons);
 			setProgress(storedPokemons.length);
-		} else
-			loadPokemons();
+		} else loadPokemons();
 		setFavorites(storedFavorites);
-
-		const params = new URLSearchParams();
-		if (search) params.set("search", search);
-		if (type) params.set("type", type);
-		params.set("limit", limit);
-		router.push(`?${params.toString()}`);
-	}, [search, type, limit, router]);
-
-
-	const toggleFavorite = (pokemon) => {
-		if (favorites.some((fav) => fav.id === pokemon.id))
-			removeFavorite(pokemon.id);
-		else
-			addFavorite(pokemon);
-	};
-
-	const addFavorite = useCallback((pokemon) => {
-		const updatedFavorites = [...favorites, pokemon];
-		setFavorites(updatedFavorites);
-		localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-	}, [favorites]);
-
-	const removeFavorite = useCallback((id) => {
-		const updatedFavorites = favorites.filter((fav) => fav.id !== id);
-		setFavorites(updatedFavorites);
-		localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-	}, [favorites]);
+	}, []);
 
 	const addPokemonToCompare = (pokemon) => {
 		if (comparisonList.some((comp) => comp.id === pokemon.id)) return;
@@ -149,11 +124,9 @@ const PokemonPage = ({ pageType }) => {
 				<section>
 					<h2>{pageType === "favorite" ? "Favorite Pokémon List" : "Pokémon List"}</h2>
 					<PokemonList
-						pokemons={filteredPokemons}
+						pokemonsToShow={filteredPokemons}
 						onSelectPokemon={setSelectedPokemon}
 						onComparePokemon={addPokemonToCompare}
-						favorites={favorites}
-						toggleFavorite={toggleFavorite}
 					/>
 				</section>
 				<section>

@@ -1,3 +1,7 @@
+"use client";
+
+import { PokemonProvider } from "../context/PokemonContext";
+
 export default function PokedexLayout({ children }) {
 	return (
 		<html lang="en">
@@ -5,7 +9,9 @@ export default function PokedexLayout({ children }) {
 				<title>Pokédex</title>
 			</head>
 			<body>
-				{children}
+				<PokemonProvider>
+					{children}
+				</PokemonProvider>
 			</body>
 		</html>
 	);
