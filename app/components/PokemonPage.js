@@ -79,12 +79,12 @@ const PokemonPage = ({ pageType }) => {
 			setIsFetching(false);
 		}
 
-		if (offset + limit < NUMBER_OF_POKEMONS) {
+		if (offset + limit < NUMBER_OF_POKEMONS)
 			loadPokemons(offset + limit, limit);
-		}
 	};
 
 	useEffect(() => {
+		// Load pokemon list and favorite list
 		const storedPokemons = JSON.parse(localStorage.getItem("pokemonList")) || [];
 		const storedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
 		// If available, load from localstorage
@@ -93,7 +93,16 @@ const PokemonPage = ({ pageType }) => {
 			setProgress(storedPokemons.length);
 		} else loadPokemons();
 		setFavorites(storedFavorites);
+
+		// Load comparison
+		const storedComparison = JSON.parse(localStorage.getItem("lastComparison")) || [];
+		setComparisonList(storedComparison);
+		if (storedComparison.length > 0) setIsComparisonOpen(true);
 	}, []);
+
+	useEffect(() => {
+		localStorage.setItem("lastComparison", JSON.stringify(comparisonList));
+	}, [comparisonList]);
 
 	const addPokemonToCompare = (pokemon) => {
 		if (comparisonList.some((comp) => comp.id === pokemon.id)) return;
