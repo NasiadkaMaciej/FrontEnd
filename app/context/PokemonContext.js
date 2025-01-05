@@ -11,6 +11,7 @@ export const PokemonProvider = ({ children }) => {
 	const [type, setType] = useState("");
 	const [limit, setLimit] = useState("20");
 	const [progress, setProgress] = useState(0);
+	const [savedFilters, setSavedFilters] = useState(() => JSON.parse(localStorage.getItem("savedFilters")) || []);
 
 	const router = useRouter();
 	const searchParams = useSearchParams();
@@ -51,6 +52,24 @@ export const PokemonProvider = ({ children }) => {
 		localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
 	}, [favorites]);
 
+	const saveFilter = useCallback((newFilter) => {
+		const updatedFilters = [...savedFilters, newFilter];
+		setSavedFilters(updatedFilters);
+		localStorage.setItem("savedFilters", JSON.stringify(updatedFilters));
+	}, [savedFilters]);
+
+	const removeFilter = useCallback((filterToRemove) => {
+		const updatedFilters = savedFilters.filter(filter => filter !== filterToRemove);
+		setSavedFilters(updatedFilters);
+		localStorage.setItem("savedFilters", JSON.stringify(updatedFilters));
+	}, [savedFilters]);
+
+	const applyFilter = (filter) => {
+		setSearch(filter.search);
+		setType(filter.type);
+		setLimit(filter.limit);
+	};
+
 	return (
 		<PokemonContext.Provider value={{
 			pokemonList,
@@ -65,7 +84,11 @@ export const PokemonProvider = ({ children }) => {
 			setLimit,
 			progress,
 			setProgress,
-			toggleFavorite
+			toggleFavorite,
+			saveFilter,
+			applyFilter,
+			removeFilter,
+			savedFilters,
 		}}>
 			{children}
 		</PokemonContext.Provider>

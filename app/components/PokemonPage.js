@@ -116,7 +116,7 @@ const PokemonPage = ({ pageType }) => {
 	};
 
 	const pokelist = pageType === "favorite" ? favorites : pokemonList;
-	const filteredPokemons = filterPokemons(pokelist, type, search, limit);
+	const filteredPokemons = filterPokemons(pokelist, { type, search, limit });
 
 	return (
 		<>

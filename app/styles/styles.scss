@@ -1,11 +1,13 @@
 :root {
-	--primary-color: #f8d030;
+	--primary-color: #ffe62d;
 	--secondary-color: #f9f9f9;
-	--border-color: #ddd --text-color: #333;
+	--border-color: #ddd;
+	--text-color: #333;
 	--text-hover-color: #000;
 	--favorite-color: gold;
-	--popup-bg-color: white;
 	--box-shadow-color: rgba(0, 0, 0, 0.1);
+	--button-color: #e4e4e4;
+	--button-hover-color: #d3d3d3;
 }
 
 * {
@@ -26,26 +28,21 @@ body {
 	header {
 		text-align: center;
 		padding: 1rem;
-		background-color: var(--primary-color);
+		background: var(--primary-color);
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 
-		nav {
+		nav,
+		#search {
 			display: flex;
 			gap: 1rem;
 			padding: 1rem;
 		}
 
-		#search {
-			display: flex;
-			gap: 1rem;
-			align-items: center;
-		}
-
 		#search input,
 		#search select {
-			padding: 0.5rem;
+			padding: 0.4rem;
 			border: 1px solid var(--border-color);
 			border-radius: 4px;
 			font-size: 1rem;
@@ -74,12 +71,11 @@ body {
 		gap: 1rem;
 
 		section {
-			text-align: center;
 			flex: 1;
 			border: 1px solid var(--border-color);
 			padding: 1rem;
 			border-radius: 8px;
-			background-color: var(--secondary-color);
+			background: var(--secondary-color);
 			text-align: center;
 			box-shadow: 0 4px 6px var(--box-shadow-color);
 		}
@@ -97,14 +93,6 @@ body {
 				padding: 0.5rem;
 				border-bottom: 1px solid var(--border-color);
 
-				.compareBtn {
-					padding: 0.5rem;
-					border: 1px solid var(--border-color);
-					border-radius: 4px;
-					font-size: 1rem;
-					outline: none;
-				}
-
 				.favoriteBtn {
 					font-size: 4em;
 					user-select: none;
@@ -116,45 +104,97 @@ body {
 				}
 			}
 		}
+
+		#comparison-popup {
+			position: fixed;
+			border-radius: 8px;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			background: white;
+			border: 1px solid var(--border-color);
+			padding: 20px;
+			box-shadow: 0 4px 6px var(--box-shadow-color);
+			width: 60%;
+			height: auto;
+			z-index: 1;
+			overflow-y: auto;
+
+			.comparison-container,
+			.pokemon-comparison {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				flex-direction: row;
+
+				.pokemon-comparison {
+					margin-bottom: 10px;
+					flex-direction: column;
+				}
+			}
+
+			#close-popup {
+				position: absolute;
+				top: 0;
+				right: 10px;
+			}
+		}
 	}
 }
 
-#comparison-popup {
+
+
+#saved-filters {
 	position: fixed;
+	top: 0;
+	right: calc(-30% - 20px);
+	width: 30%;
+	height: 100%;
+	background: var(--secondary-color);
+	padding: 10px;
 	border-radius: 8px;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	background-color: white;
-	border: 1px solid var(--border-color);
-	padding: 20px;
 	box-shadow: 0 4px 6px var(--box-shadow-color);
-	width: 80%;
-	height: auto;
-	z-index: 1000;
+	transition: right 0.3s ease;
+	z-index: 1;
 	overflow-y: auto;
 
-	.comparison-container {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		flex-direction: row;
-
-		.pokemon-comparison {
-			display: flex;
-			align-items: center;
-			margin-bottom: 10px;
-			flex-direction: column;
-		}
+	&.open {
+		right: 0;
 	}
 
-	#close-popup {
-		position: absolute;
-		top: 10px;
-		right: 10px;
+	.saved-filter {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 0.5rem;
+		margin-bottom: 0.5rem;
+		border-bottom: 1px solid var(--border-color);
+		background: var(--secondary-color);
+		border-radius: 4px;
+	}
+}
+
+button {
+	padding: 0.4rem;
+	border: 1px solid var(--border-color);
+	border-radius: 4px;
+	font-size: 1rem;
+	background: var(--button-color);
+
+	&:hover {
+		background: var(--button-hover-color);
+	}
+}
+
+.closeBtn {
+	font-size: 2rem;
+	color: #333;
+	background: none;
+	border: none;
+	cursor: pointer;
+
+	&:hover {
+		color: var(--primary-color);
 		background: none;
-		border: none;
-		font-size: 1.5rem;
-		cursor: pointer;
 	}
 }

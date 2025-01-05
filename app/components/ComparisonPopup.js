@@ -3,7 +3,9 @@ const ComparisonPopup = ({ selectedPokemons, onClose }) => {
 
 	return (
 		<div className="comparison-popup">
-			<button id="close-popup" onClick={onClose}>X</button>
+			<button id="close-popup" className="closeBtn" onClick={onClose}>
+				&times;
+			</button>
 			<h2>Compare Pokémon</h2>
 			<div className="comparison-container">
 				{selectedPokemons.map((pokemon) => (
