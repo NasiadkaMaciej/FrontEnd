@@ -3,7 +3,7 @@ import { usePokemonContext } from "../context/PokemonContext";
 
 const Navigation = () => {
 	const {
-		search, setSearch, type, setType, limit, setLimit, progress, saveFilter, applyFilter, removeFilter, savedFilters
+		search, setSearch, type, setType, limit, setLimit, progress, saveFilter, applyFilter, removeFilter, savedFilters, pokemonTypes
 	} = usePokemonContext();
 
 	const [isSavedFiltersOpen, setIsSavedFiltersOpen] = useState(false);
@@ -15,7 +15,7 @@ const Navigation = () => {
 	const handleSaveFilter = () => saveFilter({ search, type, limit });
 	const handleRemoveFilter = (filter) => removeFilter(filter);
 	const handleApplyFilter = (filter) => applyFilter(filter);
-	const toggleSavedFilters = () =>  setIsSavedFiltersOpen(!isSavedFiltersOpen);
+	const toggleSavedFilters = () => setIsSavedFiltersOpen(!isSavedFiltersOpen);
 	const closeSavedFilters = () => setIsSavedFiltersOpen(false);
 
 	return (
@@ -37,27 +37,11 @@ const Navigation = () => {
 					onChange={handleSearchChange}
 				/>
 				<select value={type} onChange={handleTypeChange}>
-					<option value="">All Types</option>
-					<option value="bug">Bug</option>
-					<option value="dark">Dark</option>
-					<option value="dragon">Dragon</option>
-					<option value="electric">Electric</option>
-					<option value="fairy">Fairy</option>
-					<option value="fighting">Fighting</option>
-					<option value="fire">Fire</option>
-					<option value="flying">Flying</option>
-					<option value="ghost">Ghost</option>
-					<option value="grass">Grass</option>
-					<option value="ground">Ground</option>
-					<option value="ice">Ice</option>
-					<option value="normal">Normal</option>
-					<option value="poison">Poison</option>
-					<option value="psychic">Psychic</option>
-					<option value="rock">Rock</option>
-					<option value="steel">Steel</option>
-					<option value="stellar">Stellar</option>
-					<option value="water">Water</option>
-					<option value="unknown">Unknown</option>
+					{pokemonTypes.map((type, index) => (
+						<option key={index} value={type.toLowerCase() === "all types" ? "" : type.toLowerCase()}>
+							{type}
+						</option>
+					))}
 				</select>
 				<input
 					type="number"

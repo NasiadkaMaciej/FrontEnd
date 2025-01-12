@@ -13,6 +13,12 @@ export const PokemonProvider = ({ children }) => {
 	const [progress, setProgress] = useState(0);
 	const [savedFilters, setSavedFilters] = useState(() => JSON.parse(localStorage.getItem("savedFilters")) || []);
 
+	const pokemonTypes = [
+		"All Types", "bug", "dark", "dragon", "electric", "fairy", "fighting",
+		"fire", "flying", "ghost", "grass", "ground", "ice", "normal", "poison",
+		"psychic", "rock", "steel", "stellar", "water", "unknown"
+	  ];
+
 	const router = useRouter();
 	const searchParams = useSearchParams();
 
@@ -89,6 +95,7 @@ export const PokemonProvider = ({ children }) => {
 			applyFilter,
 			removeFilter,
 			savedFilters,
+			pokemonTypes
 		}}>
 			{children}
 		</PokemonContext.Provider>
